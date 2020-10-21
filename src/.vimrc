@@ -53,6 +53,12 @@ nmap Q <Nop>
 set noerrorbells visualbell t_vb=
 
 
+" map C-W hjkl to C-hjkl
+" nnoremap <C-J> <C-W><C-J>
+" nnoremap <C-K> <C-W><C-K>
+" nnoremap <C-L> <C-W><C-L>
+" nnoremap <C-H> <C-W><C-H>
+
 
 " Specify a directory for plugins
 " - For Neovim: stdpath('data') . '/plugged'
@@ -67,5 +73,6 @@ let g:clang_format#auto_format=0
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
+Plug 'christoomey/vim-tmux-navigator'
 " Initialize plugin system
 call plug#end()
