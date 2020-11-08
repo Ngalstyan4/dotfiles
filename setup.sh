@@ -5,3 +5,6 @@ ln -s "$(pwd)"/src/.tmux.conf ~/.tmux.conf
 
 mkdir -p ~/.vim/autoload
 cp src/.vim/autoload/* ~/.vim/autoload/
+
+git config --global user.email "narekg@berkeley.edu"
+git config --global user.name "Narek Galstyan"
