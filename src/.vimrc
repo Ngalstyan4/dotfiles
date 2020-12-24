@@ -47,11 +47,23 @@ set incsearch
 
 " Unbind some useless/annoying default key bindings.
 " 'Q' in normal mode enters Ex mode. You almost never want this.
-nmap Q <Nop> 
+nmap Q <Nop>
 
 " Disable audible bell because it's annoying.
 set noerrorbells visualbell t_vb=
 
+highlight ExtraWhitespace ctermbg=red guibg=red
+" Show trailing whitespace:
+:match ExtraWhitespace /\s\+$/
+"
+" " Show trailing whitespace and spaces before a tab:
+" :match ExtraWhitespace /\s\+$\| \+\ze\t/
+"
+" " Show tabs that are not at the start of a line:
+" :match ExtraWhitespace /[^\t]\zs\t\+/
+"
+" " Show spaces used for indenting (so you use only tabs for indenting).
+" :match ExtraWhitespace /^\t*\zs \+/
 
 " map C-W hjkl to C-hjkl
 " nnoremap <C-J> <C-W><C-J>
@@ -74,5 +86,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 Plug 'christoomey/vim-tmux-navigator'
+
+Plug 'tpope/vim-surround'
 " Initialize plugin system
 call plug#end()
