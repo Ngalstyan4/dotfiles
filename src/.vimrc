@@ -52,6 +52,10 @@ nmap Q <Nop>
 " Disable audible bell because it's annoying.
 set noerrorbells visualbell t_vb=
 
+" Change comment highlight color since with flux default blue becomes
+" invisable at night
+highlight Comment ctermfg=green
+
 highlight ExtraWhitespace ctermbg=red guibg=red
 " Show trailing whitespace:
 :match ExtraWhitespace /\s\+$/
