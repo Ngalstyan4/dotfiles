@@ -9,3 +9,7 @@ cp src/.vim/autoload/* ~/.vim/autoload/
 
 git config --global user.email "narekg@berkeley.edu"
 git config --global user.name "Narek Galstyan"
+
+
+# git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+# ~/.fzf/install

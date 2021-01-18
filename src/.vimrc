@@ -20,7 +20,7 @@ set relativenumber
 " Always show the status line at the bottom, even if you only have one window open.
 set laststatus=2
 
- 
+
 
 " The backspace key has slightly unintuitive behavior by default. For example,
 " by default, you can't backspace before the insertion point set with 'i'.
@@ -56,6 +56,9 @@ set noerrorbells visualbell t_vb=
 " invisable at night
 highlight Comment ctermfg=green
 
+" Change visual mode highlighting so highlighted text is still readable
+highlight Visual cterm=none ctermbg=darkgrey ctermfg=cyan
+
 highlight ExtraWhitespace ctermbg=red guibg=red
 " Show trailing whitespace:
 :match ExtraWhitespace /\s\+$/
@@ -83,7 +86,7 @@ call plug#begin('~/.vim/plugged')
 
 
 " autoformat
-Plug 'rhysd/vim-clang-format', {'for' : ['c', 'cpp']}
+Plug 'rhysd/vim-clang-format', {'for' : ['c', 'cpp', 'sh']}
 let g:clang_format#auto_format=0
 
 Plug 'vim-airline/vim-airline'
@@ -92,5 +95,12 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'christoomey/vim-tmux-navigator'
 
 Plug 'tpope/vim-surround'
+
+" show number and index of search occurances
+Plug 'google/vim-searchindex'
+
+" diff blocks of text in the same file
+Plug 'AndrewRadev/linediff.vim'
+
 " Initialize plugin system
 call plug#end()
