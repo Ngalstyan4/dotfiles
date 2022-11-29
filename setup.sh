@@ -9,7 +9,9 @@ cp src/.vim/autoload/* ~/.vim/autoload/
 
 git config --global user.email "narekg@berkeley.edu"
 git config --global user.name "Narek Galstyan"
+git config --global core.editor vim
+echo 'export EDITOR=vim' >> .bashrc
 
 
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-~/.fzf/install
+~/.fzf/install --all
