@@ -1,6 +1,9 @@
 #!/bin/bash
 # sudo apt-get install tmux
-DIR=`dirname $0`
+
+SCRIPT=$(realpath "$0")
+DIR=$(dirname "$SCRIPT")
+
 ln -s "$DIR"/src/.vimrc ~/.vimrc
 ln -s "$DIR"/src/.clang-format ~/.clang-format
 ln -s "$DIR"/src/.tmux.conf ~/.tmux.conf
