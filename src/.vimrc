@@ -95,6 +95,9 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'christoomey/vim-tmux-navigator'
 
 Plug 'tpope/vim-surround'
+" for handling github URLs in fugitive
+Plug 'tpope/vim-rhubarb'
+Plug 'tpope/vim-fugitive'
 
 " show number and index of search occurances
 Plug 'google/vim-searchindex'
