@@ -1,5 +1,8 @@
 #!/bin/bash
 # sudo apt-get install tmux git-absorb
+# bash strict mode
+set -euo pipefail
+IFS=$'\n\t'
 
 SCRIPT=$(realpath "$0")
 DIR=$(dirname "$SCRIPT")
@@ -11,28 +14,42 @@ ln -s "$DIR"/src/.tmux.conf ~/.tmux.conf
 mkdir -p ~/.vim/autoload
 cp src/.vim/autoload/* ~/.vim/autoload/
 
-# install nvim
+#################################################################################################################
+# Install and configure nvim
+#################################################################################################################
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
 chmod u+x nvim.appimage
 ./nvim.appimage --appimage-extract
 ./squashfs-root/AppRun --version
 
-# Optional: exposing nvim globally.
+## Optional: exposing nvim globally.
 sudo mv squashfs-root /
 sudo ln -s /squashfs-root/AppRun /usr/bin/nvim
 
-# add nvim config
+## Install astronvim
+mkdir -p ~/.config
+git clone --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/nvim
+
+## Add personal astronvim config
 mkdir -p $HOME/.config/nvim/lua/user
 git clone https://github.com/Ngalstyan4/astronvim_config.git $HOME/.config/nvim/lua/user
 
+#################################################################################################################
+# Configure git
+#################################################################################################################
 git config --global user.email "narekg@berkeley.edu"
 git config --global user.name "Narek Galstyan"
 git config --global core.editor vim
 git config --global pull.ff only
 echo 'export EDITOR=nvim' >> ~/.bashrc
 
-# install python
-# Step 1: Install pyenv
+# Install a compiler (needed for python installation)
+sudo apt install build-essential
+
+#################################################################################################################
+# Install python
+#################################################################################################################
+##  Step 1: Install pyenv
 # Check if pyenv is already installed
 if ! command -v pyenv &> /dev/null
 then
@@ -55,12 +72,39 @@ else
     echo "pyenv already installed."
 fi
 
-# Step 2: Install Python 3.10
+## Step 2: Install Python 3.10
 echo "Installing Python 3.10..."
 pyenv install 3.10.0
 pyenv global 3.10.0
 
+#################################################################################################################
+# Install golang
+#################################################################################################################
+ rm -rf /usr/local/go && tar -C /usr/local -xzf go1.21.6.linux-amd64.tar.gz
+ export PATH=$PATH:/usr/local/go/bin
+echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
 
 
+
+#################################################################################################################
+# install node nvim
+#################################################################################################################
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+nvm install node
+
+#################################################################################################################
+# Install lazygit
+#################################################################################################################
+LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
+curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+tar xf lazygit.tar.gz lazygit
+sudo install lazygit /usr/local/bin
+ln -s /usr/local/bin/lazygit /usr/local/bin/lg
+
+
+#################################################################################################################
+# Install command line niceties
+#################################################################################################################
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install --all
+sudo apt-get install ripgrep tmux 
