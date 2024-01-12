@@ -44,7 +44,11 @@ git config --global pull.ff only
 echo 'export EDITOR=nvim' >> ~/.bashrc
 
 # Install a compiler (needed for python installation)
-sudo apt install build-essential
+sudo apt install -y make build-essential
+## more libs needed for python build
+sudo apt-get install -y make libssl-dev zlib1g-dev \
+libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev \
+libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl
 
 #################################################################################################################
 # Install python
