@@ -33,6 +33,15 @@ git clone --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/nvim
 ## Add personal astronvim config
 mkdir -p $HOME/.config/nvim/lua/user
 git clone https://github.com/Ngalstyan4/astronvim_config.git $HOME/.config/nvim/lua/user
+##################################################################################################################
+## Configure cmd line
+##################################################################################################################
+cat << EOF >> $HOME/.bashrc
+parse_git_branch() {
+     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+export PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w \[\e[91m\]\$(parse_git_branch)\[\e[00m\]$ "
+EOF
 
 #################################################################################################################
 # Configure git
@@ -66,11 +75,13 @@ then
     # Add pyenv to path
     echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >> ~/.bashrc
     echo 'eval "$(pyenv init --path)"' >> ~/.bashrc
+    echo 'eval "$(pyenv init -)"' >> ~/.bashrc
     echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
 
     # Apply changes to current shell
     export PATH="$HOME/.pyenv/bin:$PATH"
     eval "$(pyenv init --path)"
+    eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
 else
     echo "pyenv already installed."
