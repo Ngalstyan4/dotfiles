@@ -14,9 +14,19 @@ ln -s "$DIR"/src/.tmux.conf ~/.tmux.conf
 mkdir -p ~/.vim/autoload
 cp src/.vim/autoload/* ~/.vim/autoload/
 
-#################################################################################################################
-# Install and configure nvim
-#################################################################################################################
+##################################################################################################################
+## Configure cmd line
+##################################################################################################################
+cat << EOF >> $HOME/.bashrc
+parse_git_branch() {
+     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+export PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w \[\e[91m\]\$(parse_git_branch)\[\e[00m\]$ "
+EOF
+
+##################################################################################################################
+## Install and configure nvim
+##################################################################################################################
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
 chmod u+x nvim.appimage
 ./nvim.appimage --appimage-extract
@@ -33,19 +43,10 @@ git clone --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/nvim
 ## Add personal astronvim config
 mkdir -p $HOME/.config/nvim/lua/user
 git clone https://github.com/Ngalstyan4/astronvim_config.git $HOME/.config/nvim/lua/user
-##################################################################################################################
-## Configure cmd line
-##################################################################################################################
-cat << EOF >> $HOME/.bashrc
-parse_git_branch() {
-     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
-}
-export PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w \[\e[91m\]\$(parse_git_branch)\[\e[00m\]$ "
-EOF
 
-#################################################################################################################
-# Configure git
-#################################################################################################################
+##################################################################################################################
+## Configure git
+##################################################################################################################
 git config --global user.email "narekg@berkeley.edu"
 git config --global user.name "Narek Galstyan"
 git config --global core.editor vim
@@ -57,7 +58,10 @@ sudo apt install -y make build-essential
 ## more libs needed for python build
 sudo apt-get install -y make libssl-dev zlib1g-dev \
 libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev \
-libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl
+libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev
+
+## packages needed for other reasons
+sudo apt install -y unzip # stylelua in astronvim
 
 #################################################################################################################
 # Install python
@@ -108,7 +112,7 @@ LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/re
 curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
 tar xf lazygit.tar.gz lazygit
 sudo install lazygit /usr/local/bin
-ln -s /usr/local/bin/lazygit /usr/local/bin/lg
+sudo ln -s /usr/local/bin/lazygit /usr/local/bin/lg
 
 
 #################################################################################################################
@@ -116,4 +120,4 @@ ln -s /usr/local/bin/lazygit /usr/local/bin/lg
 #################################################################################################################
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install --all
-sudo apt-get install ripgrep tmux 
+sudo apt-get install -y ripgrep tmux
