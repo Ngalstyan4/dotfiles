@@ -21,7 +21,7 @@ cat << EOF >> $HOME/.bashrc
 parse_git_branch() {
      git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
-export PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w \[\e[91m\]\$(parse_git_branch)\[\e[00m\]$ "
+export PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w \[\e[91m\]\\\$(parse_git_branch)\[\e[00m\]$ "
 EOF
 
 ##################################################################################################################
@@ -52,6 +52,25 @@ git config --global user.name "Narek Galstyan"
 git config --global core.editor vim
 git config --global pull.ff only
 echo 'export EDITOR=nvim' >> ~/.bashrc
+
+##################################################################################################################
+## Configure bash History
+##################################################################################################################
+
+cat << EOF >> $HOME/.bashrc
+HISTSIZE=100000
+HISTFILESIZE=200000
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+# save history even before exiting shell
+export PROMPT_COMMAND="history -a;history -c;history -r; $PROMPT_COMMAND"
+shopt -s checkwinsize
+EOF
+
 
 # Install a compiler (needed for python installation)
 sudo apt install -y make build-essential
